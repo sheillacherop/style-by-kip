@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Collection | MK50</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rock+Salt&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --almond: #CEB093; --black: #000000; --onyx: #080808; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at center, #111 0%, #000 100%);
+            background-attachment: fixed;
+            color: #fff;
+            padding-top: 100px;
+            padding-bottom: 100px;
+        }
+
+        /* Fixed Navigation */
+        nav {
+            position: fixed; top: 0; width: 100%; padding: 25px 50px;
+            background: rgba(0,0,0,0.95); backdrop-filter: blur(10px);
+            display: flex; justify-content: space-between; align-items: center; z-index: 1000;
+            border-bottom: 1px solid rgba(206,192,179,0.1);
+        }
+        .logo { font-family: 'Rock Salt'; color: var(--almond); font-size: 1.5rem; text-decoration: none; }
+        
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a { 
+            color: #ccc; text-decoration: none; font-size: 0.8rem; 
+            text-transform: uppercase; letter-spacing: 2px; transition: 0.3s;
+        }
+        .nav-links a:hover { color: var(--almond); }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        h2 { font-family: 'Rock Salt'; color: var(--almond); text-align: center; margin: 80px 0 30px; letter-spacing: 2px; }
+        
+        .product-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 35px;
+        }
+        .product-card {
+            background: var(--onyx); border: 1px solid rgba(255,255,255,0.03);
+            padding: 25px; text-align: center; transition: 0.4s;
+        }
+        .product-card:hover { border-color: var(--almond); transform: translateY(-10px); }
+        .product-card img { width: 100%; height: 320px; object-fit: cover; margin-bottom: 20px; border-radius: 2px; }
+        .price { display: block; font-family: 'Rock Salt'; color: var(--almond); margin: 10px 0; font-size: 1rem; }
+        
+        .btn-buy {
+            display: block; width: 100%; padding: 15px;
+            background: transparent; border: 1px solid var(--almond); 
+            color: var(--almond); text-transform: uppercase;
+            font-weight: 800; font-size: 0.75rem; letter-spacing: 3px;
+            cursor: pointer; transition: 0.3s;
+        }
+        .btn-buy:hover { background: var(--almond); color: var(--black); }
+
+        /* Floating Basket */
+        #floating-basket {
+            position: fixed; bottom: 30px; right: 30px;
+            background: var(--almond); color: var(--black);
+            width: 70px; height: 70px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; z-index: 1001; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        #cart-count {
+            position: absolute; top: 0; right: 0;
+            background: #ff4757; color: white; padding: 5px 10px;
+            border-radius: 50%; font-size: 0.8rem; font-weight: bold;
+        }
+
+        /* Cart Panel */
+        #cart-panel {
+            position: fixed; top: 0; right: -400px; width: 380px; height: 100vh;
+            background: #0a0a0a; z-index: 1002; transition: 0.4s ease; padding: 40px;
+            border-left: 1px solid var(--almond); overflow-y: auto;
+        }
+        #cart-panel.open { right: 0; }
+        .close-cart { cursor: pointer; color: var(--almond); float: right; font-size: 2rem; }
+        .cart-item { margin: 20px 0; border-bottom: 1px solid #222; padding-bottom: 15px; }
+        .checkout-btn {
+            width: 100%; background: var(--almond); color: var(--black);
+            padding: 20px; border: none; font-weight: bold; cursor: pointer; 
+            margin-top: 20px; text-transform: uppercase; letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="index.html" class="logo">MK50</a>
+    <div class="nav-links">
+        <a href="home.html">Home</a>
+        <a href="products.html">Shop Collection</a>
+        <a href="orders.html">My Orders</a>
+        <a href="contacts.html">Contacts</a>
+    </div>
+</nav>
+
+<div id="floating-basket" onclick="toggleCart()">
+    <i class="fas fa-shopping-bag" style="font-size: 1.5rem;"></i>
+    <span id="cart-count">0</span>
+</div>
+
+<div id="cart-panel">
+    <span class="close-cart" onclick="toggleCart()">&times;</span>
+    <h2 style="text-align:left; margin-top:0; font-family:'Rock Salt'; font-size:1.5rem;">Your Bag</h2>
+    <div id="cart-items"></div>
+    <div id="cart-total" style="margin-top:20px; font-weight:bold; border-top:1px solid #333; padding-top:20px; color:var(--almond);">
+        Total: KSh 0
+    </div>
+    <button class="checkout-btn" onclick="goToPayment()">Confirm Order</button>
+</div>
+
+<div class="container">
+    <h2>Whole Fit Sets</h2>
+    <div class="product-grid">
+        <div class="product-card"><img src="images/wholefit1.jpg"><h3>Set 01: Street</h3><span class="price">KSh 15,000</span><button class="btn-buy" onclick="addToCart('Set 01: Street', 15000)">Buy Set</button></div>
+        <div class="product-card"><img src="images/wholefit2.jpg"><h3>Set 02: Suede</h3><span class="price">KSh 12,500</span><button class="btn-buy" onclick="addToCart('Set 02: Suede', 12500)">Buy Set</button></div>
+        <div class="product-card"><img src="images/wholefit3.jpg"><h3>Set 03: Charcoal</h3><span class="price">KSh 13,800</span><button class="btn-buy" onclick="addToCart('Set 03: Charcoal', 13800)">Buy Set</button></div>
+        <div class="product-card"><img src="images/wholefit4.jpg"><h3>Set 04: Executive</h3><span class="price">KSh 16,000</span><button class="btn-buy" onclick="addToCart('Set 04: Executive', 16000)">Buy Set</button></div>
+        <div class="product-card"><img src="images/wholefit5.jpg"><h3>Set 05: Limited</h3><span class="price">KSh 14,500</span><button class="btn-buy" onclick="addToCart('Set 05: Limited', 14500)">Buy Set</button></div>
+    </div>
+
+    <h2>Apparel</h2>
+    <div class="product-grid">
+        <div class="product-card"><img src="images/cardigan.jpg"><h3>Refined Cardigan</h3><span class="price">KSh 5,500</span><button class="btn-buy" onclick="addToCart('Refined Cardigan', 5500)">Buy Item</button></div>
+        <div class="product-card"><img src="images/long-sleeve.jpg"><h3>Long Sleeve</h3><span class="price">KSh 3,200</span><button class="btn-buy" onclick="addToCart('Long Sleeve', 3200)">Buy Item</button></div>
+        <div class="product-card"><img src="images/short-sleeve.jpg"><h3>Short Sleeve</h3><span class="price">KSh 2,800</span><button class="btn-buy" onclick="addToCart('Short Sleeve', 2800)">Buy Item</button></div>
+        <div class="product-card"><img src="images/graphic-tee.jpg"><h3>Graphic Tee</h3><span class="price">KSh 2,500</span><button class="btn-buy" onclick="addToCart('Graphic Tee', 2500)">Buy Item</button></div>
+        <div class="product-card"><img src="images/polos.jpg"><h3>Premium Polo</h3><span class="price">KSh 3,000</span><button class="btn-buy" onclick="addToCart('Premium Polo', 3000)">Buy Item</button></div>
+        <div class="product-card"><img src="images/jumper.jpg"><h3>Essential Jumper</h3><span class="price">KSh 4,000</span><button class="btn-buy" onclick="addToCart('Essential Jumper', 4000)">Buy Item</button></div>
+        <div class="product-card"><img src="images/quater-zip.jpg"><h3>Quarter Zip</h3><span class="price">KSh 4,500</span><button class="btn-buy" onclick="addToCart('Quarter Zip', 4500)">Buy Item</button></div>
+    </div>
+
+    <h2>Footwear</h2>
+    <div class="product-grid">
+        <div class="product-card"><img src="images/j4s.jpg"><h3>Retro Jordan 4</h3><span class="price">KSh 8,500</span><button class="btn-buy" onclick="addToCart('Retro Jordan 4', 8500)">Buy Pair</button></div>
+        <div class="product-card"><img src="images/martinsss.jpg"><h3>Martens Boots</h3><span class="price">KSh 7,500</span><button class="btn-buy" onclick="addToCart('Martens Boots', 7500)">Buy Pair</button></div>
+        <div class="product-card"><img src="images/vans.jpg"><h3>Old Skool Vans</h3><span class="price">KSh 4,500</span><button class="btn-buy" onclick="addToCart('Old Skool Vans', 4500)">Buy Pair</button></div>
+        <div class="product-card"><img src="images/old-skul-shoes.jpg"><h3>Retro Skul Shoes</h3><span class="price">KSh 4,200</span><button class="btn-buy" onclick="addToCart('Retro Skul Shoes', 4200)">Buy Pair</button></div>
+    </div>
+</div>
+
+<script>
+    let cart = [];
+
+    function toggleCart() {
+        document.getElementById('cart-panel').classList.toggle('open');
+    }
+
+    function addToCart(name, price) {
+        cart.push({ name, price });
+        updateUI();
+        if(!document.getElementById('cart-panel').classList.contains('open')) toggleCart();
+    }
+
+    function updateUI() {
+        const itemsContainer = document.getElementById('cart-items');
+        const count = document.getElementById('cart-count');
+        const totalEl = document.getElementById('cart-total');
+        
+        itemsContainer.innerHTML = '';
+        let total = 0;
+        
+        cart.forEach((item) => {
+            total += item.price;
+            itemsContainer.innerHTML += `
+                <div class="cart-item">
+                    <p style="font-weight:bold;">${item.name}</p>
+                    <p style="color:var(--almond)">KSh ${item.price.toLocaleString()}</p>
+                </div>`;
+        });
+        
+        count.innerText = cart.length;
+        totalEl.innerText = `Total: KSh ${total.toLocaleString()}`;
+    }
+
+    function goToPayment() {
+        if(cart.length === 0) return alert("Your bag is empty!");
+        localStorage.setItem('mk50Cart', JSON.stringify(cart));
+        window.location.href = 'orders.html';
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finalize Order | MK50</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rock+Salt&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --almond: #CEB093; --black: #000000; --onyx: #0a0a0a; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #000;
+            color: #fff;
+            padding-top: 120px;
+            min-height: 100vh;
+        }
+
+        /* Nav consistent with Collection */
+        nav {
+            position: fixed; top: 0; width: 100%; padding: 20px 5%;
+            background: rgba(0,0,0,0.95); backdrop-filter: blur(10px);
+            display: flex; justify-content: space-between; align-items: center; z-index: 1000;
+            border-bottom: 1px solid rgba(206,192,179,0.1);
+        }
+        .logo { font-family: 'Rock Salt'; color: var(--almond); font-size: 1.5rem; text-decoration: none; }
+        .nav-links a { color: #fff; text-decoration: none; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; margin-left: 20px;}
+
+        .order-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--onyx);
+            padding: 40px;
+            border: 1px solid rgba(206,192,179,0.1);
+            border-radius: 5px;
+        }
+
+        h1 { font-family: 'Rock Salt'; color: var(--almond); text-align: center; margin-bottom: 30px; }
+
+        .summary-box {
+            background: #111;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 4px;
+        }
+
+        .item-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+
+        .total-row {
+            border-top: 1px solid #333;
+            margin-top: 15px;
+            padding-top: 15px;
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            color: var(--almond);
+            font-size: 1.2rem;
+        }
+
+        .payment-methods { margin-top: 30px; }
+        .method {
+            background: transparent;
+            border: 1px solid #333;
+            padding: 20px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .method:hover { border-color: var(--almond); }
+        .method.active { border-color: var(--almond); background: rgba(206, 176, 147, 0.05); }
+
+        .input-group { margin-top: 20px; }
+        input {
+            width: 100%;
+            padding: 15px;
+            background: #111;
+            border: 1px solid #333;
+            color: white;
+            margin-bottom: 10px;
+            outline: none;
+        }
+        input:focus { border-color: var(--almond); }
+
+        .confirm-btn {
+            width: 100%;
+            background: var(--almond);
+            color: var(--black);
+            padding: 20px;
+            border: none;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+        .confirm-btn:hover { transform: scale(1.02); opacity: 0.9; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="index.html" class="logo">MK50</a>
+    <div class="nav-links">
+        <a href="home.html">Home</a>
+        <a href="products.html">Back to Shop</a>
+    </div>
+</nav>
+
+<div class="order-container">
+    <h1>Finalize</h1>
+    
+    <div class="summary-box" id="order-list">
+        </div>
+
+    <div class="input-group">
+        <input type="text" id="cust-name" placeholder="Your Full Name">
+        <input type="text" id="cust-location" placeholder="Delivery Location (e.g. Nairobi CBD, Ruiru)">
+    </div>
+
+    <div class="payment-methods">
+        <p style="margin-bottom: 15px; font-size: 0.8rem; letter-spacing: 1px; color: #888;">SELECT PAYMENT TYPE</p>
+        <div class="method" onclick="setMethod('M-Pesa', this)">M-PESA <span>→</span></div>
+        <div class="method" onclick="setMethod('Global Pay', this)">GLOBAL PAY <span>→</span></div>
+        <div class="method" onclick="setMethod('Credit Card', this)">CREDIT CARD <span>→</span></div>
+    </div>
+
+    <button class="confirm-btn" onclick="sendToWhatsApp()">Send to WhatsApp</button>
+</div>
+
+<script>
+    let selectedMethod = "";
+    const cart = JSON.parse(localStorage.getItem('mk50Cart')) || [];
+
+    function displayOrder() {
+        const listDiv = document.getElementById('order-list');
+        if (cart.length === 0) {
+            listDiv.innerHTML = "<p>Your bag is empty.</p>";
+            return;
+        }
+
+        let total = 0;
+        let html = "";
+        cart.forEach(item => {
+            total += item.price;
+            html += `<div class="item-row"><span>${item.name}</span><span>KSh ${item.price.toLocaleString()}</span></div>`;
+        });
+
+        html += `<div class="total-row"><span>Total</span><span>KSh ${total.toLocaleString()}</span></div>`;
+        listDiv.innerHTML = html;
+    }
+
+    function setMethod(method, el) {
+        selectedMethod = method;
+        document.querySelectorAll('.method').forEach(m => m.classList.remove('active'));
+        el.classList.add('active');
+    }
+
+    function sendToWhatsApp() {
+        const name = document.getElementById('cust-name').value;
+        const loc = document.getElementById('cust-location').value;
+
+        if(!name || !loc || !selectedMethod) {
+            alert("Please fill in your details and select a payment method, dear!");
+            return;
+        }
+
+        let total = cart.reduce((sum, item) => sum + item.price, 0);
+        
+        let message = `*MK50 ORDER CONFIRMATION*%0A`;
+        message += `--------------------------%0A`;
+        message += `*Customer:* ${name}%0A`;
+        message += `*Location:* ${loc}%0A`;
+        message += `*Payment:* ${selectedMethod}%0A%0A`;
+        message += `*Items Ordered:*%0A`;
+        
+        cart.forEach(item => {
+            message += `• ${item.name} - KSh ${item.price.toLocaleString()}%0A`;
+        });
+
+        message += `%0A*TOTAL AMOUNT: KSh ${total.toLocaleString()}*%0A`;
+        message += `--------------------------%0A`;
+        message += `Please confirm availability and send payment instructions.`;
+
+        window.open(`https://wa.me/254791830654?text=${message}`, '_blank');
+    }
+
+    displayOrder();
+</script>
+
+</body>
+</html>

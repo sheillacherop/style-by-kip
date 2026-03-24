@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MK50 | Refined by Kip</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rock+Salt&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Modern Reset */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --almond: #CEB093;
+            --black: #000000;
+            --onyx: #0a0a0a;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--black);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* The Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                        url('images/home-page.png') no-repeat center center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        /* Premium Navigation Bar */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 25px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(206, 176, 147, 0.1);
+        }
+
+        .logo {
+            font-family: 'Rock Salt', cursive;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            color: var(--almond);
+            text-decoration: none;
+        }
+
+        .nav-links a {
+            color: #ccc;
+            text-decoration: none;
+            margin-left: 30px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover { color: var(--almond); }
+
+        /* Content Styling */
+        .intro-container {
+            max-width: 900px;
+            animation: fadeIn 1.5s ease-in;
+        }
+
+        h1 {
+            font-family: 'Rock Salt', cursive;
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            margin-bottom: 25px;
+            color: var(--almond);
+            line-height: 1.2;
+        }
+
+        .intro-container p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 45px;
+            color: #d1d1d1;
+            font-weight: 300;
+        }
+
+        /* Button Styling */
+        .btn-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 16px 40px;
+            border: 1px solid var(--almond);
+            background: transparent;
+            color: var(--almond);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn:hover {
+            background: var(--almond);
+            color: var(--black);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(206, 176, 147, 0.2);
+        }
+
+        /* Footer */
+        footer {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.3);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="logo">MK50</a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="collection.html">Shop Collection</a>
+            <a href="orders.html">My Orders</a>
+            <a href="contact.html">Contacts</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="intro-container">
+            <h1>Refined by Kip</h1>
+            <p>
+                Aesthetics aren't just about looking good; they are about the discipline of design. 
+                At <strong>MK50</strong>, we believe that your digital and physical presence should be seamless. 
+                Directed by Kip, we provide a curated selection of essentials that bridge the gap 
+                between bold innovation and refined style. Whether it’s our custom templates or 
+                high-performance retail, we have exactly what you need to optimize your lifestyle.
+            </p>
+            
+            <div class="btn-group">
+                <a href="products.html" class="btn">Shop Collection</a>
+                <a href="orders.html" class="btn">My Orders</a>
+                <a href="contacts.html" class="btn">Contacts</a>
+            </div>
+        </div>
+
+        <footer>
+            <p>Directed by Kip | Securely Deployed by Sheilla Cherop (KCA Student)</p>
+        </footer>
+    </section>
+
+</body>
+</html>
